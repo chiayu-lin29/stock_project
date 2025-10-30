@@ -4,7 +4,7 @@
 
 ## 项目截图
 
-![Landing Page](./docs/screenshot-landing.png)
+![Landing Page](./src/assets/LandingPage.png)
 ![Main Page](./docs/screenshot-main.png) _(开发中)_
 
 ## 项目愿景
