@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  db:
+    image: timescale/timescaledb:2.15.2-pg16
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: stock_db
+      POSTGRES_PASSWORD: "0000"
+      POSTGRES_DB: stockdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: mm91026@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: stock2025*pj
+    ports:
+      - "8888:80"
+    depends_on:
+      - db
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+volumes:
+  db_data:
