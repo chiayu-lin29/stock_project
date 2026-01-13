@@ -130,7 +130,7 @@ The pipeline is designed to be reproducible and analysis-oriented.
 ## Getting Started
 
 ### Prerequisites
-- Python 3.10  
+- Python 3.10+ 
 - PostgreSQL (Docker-supported)  
 - Environment variables configured via `.env`
 
