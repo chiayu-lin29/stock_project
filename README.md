@@ -181,6 +181,9 @@ This project is developed collaboratively with clear ownership across system com
 **Frontend Development / UI–UX Design**: Zhuowen Chen  
 GitHub: [@Zhuowen-Chen](https://github.com/Zhuowen-Chen)
 
+**Data Modeling & Analytical Schema Design**: Chiayu Lin  
+GitHub: [@chiayu-lin29](https://github.com/chiayu-lin29)
+
 **Backend Development / Data Pipeline Design**: Chiayu Lin, Zhuowen Chen  
 GitHub: [@chiayu-lin29](https://github.com/chiayu-lin29), [@Zhuowen-Chen](https://github.com/Zhuowen-Chen)
 
