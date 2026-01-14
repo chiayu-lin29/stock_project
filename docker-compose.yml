@@ -1,0 +1,96 @@
+version: "3.9"
+
+services:
+  # === Frontend - React ===
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:8000/api
+    container_name: stockpulse_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+    networks:
+      - stock_network
+
+  # === Backend - Flask API ===
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: flask_api
+    env_file:
+      - ./backend/.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./backend:/app
+    command: gunicorn -w 2 -b 0.0.0.0:8000 wsgi:app
+    restart: unless-stopped
+    networks:
+      - stock_network
+
+  # === PostgreSQL / TimescaleDB ===
+  db:
+    image: timescale/timescaledb:2.15.2-pg16
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - stock_network
+
+  # === Redis (Cache) ===
+  redis:
+    image: redis:7
+    container_name: redis_cache
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - stock_network
+
+  # === pgAdmin ===
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "8888:80"
+    depends_on:
+      - db
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    restart: unless-stopped
+    networks:
+      - stock_network
+
+volumes:
+  db_data:
+    external: true
+    name: pg-stack_pgdata
+  pgadmin_data:
+    external: true
+    name: pg-stack_pgadmin_data
+  redis_data:
+
+networks:
+  stock_network:
+    driver: bridge
