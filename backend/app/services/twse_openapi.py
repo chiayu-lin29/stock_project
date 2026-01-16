@@ -61,7 +61,7 @@ def fetch_stock_day(stock_no: str, yyyymm: str) -> pd.DataFrame:
     :param stock_no: 2330, 2317 ...
     :param yyyymm: 例如 '202501'（會自動補成 20250101 給 API）
     """
-    if not re.fullmatch(r"\d{6}|\d{4}", stock_no):
+    if not re.fullmatch(r"\d{4,6}", stock_no):
         raise ValueError("stock_no 應為 4~6 碼數字")
     if not re.fullmatch(r"\d{6}", yyyymm):
         raise ValueError("yyyymm 需為 6 碼，如 202501")
